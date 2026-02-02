@@ -1,0 +1,29 @@
+app: web-porto
+
+# Generic Dokploy deployment steps for a Laravel app.
+# Review and set environment variables on the server (do NOT commit .env).
+
+build:
+  - echo "Starting build"
+  - composer install --no-interaction --prefer-dist --no-dev --optimize-autoloader
+  - npm ci --silent || true
+  - npm run build --silent || true
+
+release:
+  - php artisan key:generate --force || true
+  - php artisan migrate --force || true
+  - php artisan storage:link || true
+  - php artisan config:cache || true
+  - php artisan route:cache || true
+
+# Environment values should be set securely on the server (Dokploy env management).
+env:
+  APP_ENV: production
+  APP_DEBUG: 'false'
+  # APP_KEY: (set this on the server)
+
+# Optional: service/runtime hints. Dokploy may ignore these, but keep here for clarity.
+services:
+  web:
+    port: 80
+    command: php-fpm -F
