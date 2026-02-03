@@ -6,8 +6,8 @@ app: web-porto
 build:
   - echo "Starting build"
   - composer install --no-interaction --prefer-dist --no-dev --optimize-autoloader
-  - npm ci --silent || true
-  - npm run build --silent || true
+  - npm ci --silent
+  - npm run build --silent
 
 release:
   - php artisan key:generate --force || true
@@ -22,8 +22,6 @@ env:
   APP_DEBUG: 'false'
   # APP_KEY: (set this on the server)
 
-# Optional: service/runtime hints. Dokploy may ignore these, but keep here for clarity.
 services:
   web:
     port: 80
-    command: php-fpm -F
