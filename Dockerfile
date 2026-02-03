@@ -28,8 +28,8 @@ RUN composer install --no-dev --no-interaction --prefer-dist --optimize-autoload
 # Copy application
 COPY . .
 
-# Install NPM deps and build assets
-RUN npm ci --silent && npm run build --silent
+# Install NPM deps and build assets (npm ci = reproducible install from package-lock.json)
+RUN npm ci && npm run build
 
 RUN composer dump-autoload --optimize
 
