@@ -63,27 +63,25 @@ RUN mkdir -p /var/www/html/storage/logs && \
     mkdir -p /run/nginx && \
     chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache
 
-# Copy supervisor config
-RUN mkdir -p /etc/supervisor.d
-COPY <<EOF /etc/supervisor.d/laravel.conf
-[supervisord]
-nodaemon=true
-logfile=/var/log/supervisor/supervisord.log
-
-[program:php-fpm]
-command=/usr/sbin/php-fpm8.2 -F
-autostart=true
-autorestart=true
-stderr_logfile=/var/log/supervisor/php-fpm.err.log
-stdout_logfile=/var/log/supervisor/php-fpm.out.log
-
-[program:nginx]
-command=/usr/sbin/nginx -g 'daemon off;'
-autostart=true
-autorestart=true
-stderr_logfile=/var/log/supervisor/nginx.err.log
-stdout_logfile=/var/log/supervisor/nginx.out.log
-EOF
+# Create supervisor config
+RUN mkdir -p /etc/supervisor.d && mkdir -p /var/log/supervisor
+RUN echo '[supervisord]' > /etc/supervisor.d/laravel.conf && \
+    echo 'nodaemon=true' >> /etc/supervisor.d/laravel.conf && \
+    echo 'logfile=/var/log/supervisor/supervisord.log' >> /etc/supervisor.d/laravel.conf && \
+    echo '' >> /etc/supervisor.d/laravel.conf && \
+    echo '[program:php-fpm]' >> /etc/supervisor.d/laravel.conf && \
+    echo 'command=/usr/sbin/php-fpm8.2 -F' >> /etc/supervisor.d/laravel.conf && \
+    echo 'autostart=true' >> /etc/supervisor.d/laravel.conf && \
+    echo 'autorestart=true' >> /etc/supervisor.d/laravel.conf && \
+    echo 'stderr_logfile=/var/log/supervisor/php-fpm.err.log' >> /etc/supervisor.d/laravel.conf && \
+    echo 'stdout_logfile=/var/log/supervisor/php-fpm.out.log' >> /etc/supervisor.d/laravel.conf && \
+    echo '' >> /etc/supervisor.d/laravel.conf && \
+    echo '[program:nginx]' >> /etc/supervisor.d/laravel.conf && \
+    echo 'command=/usr/sbin/nginx -g '"'"'daemon off;'"'"'' >> /etc/supervisor.d/laravel.conf && \
+    echo 'autostart=true' >> /etc/supervisor.d/laravel.conf && \
+    echo 'autorestart=true' >> /etc/supervisor.d/laravel.conf && \
+    echo 'stderr_logfile=/var/log/supervisor/nginx.err.log' >> /etc/supervisor.d/laravel.conf && \
+    echo 'stdout_logfile=/var/log/supervisor/nginx.out.log' >> /etc/supervisor.d/laravel.conf
 
 EXPOSE 80
 
