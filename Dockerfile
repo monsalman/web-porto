@@ -23,7 +23,7 @@ WORKDIR /var/www/html
 
 # Copy composer files first (for caching)
 COPY composer.json composer.lock ./
-RUN composer install --no-dev --no-interaction --prefer-dist --optimize-autoloader
+RUN composer install --no-dev --no-interaction --prefer-dist --optimize-autoloader --no-scripts
 
 # Copy application
 COPY . .
