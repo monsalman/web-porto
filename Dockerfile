@@ -70,7 +70,7 @@ RUN echo '[supervisord]' > /etc/supervisor.d/laravel.conf && \
     echo 'logfile=/var/log/supervisor/supervisord.log' >> /etc/supervisor.d/laravel.conf && \
     echo '' >> /etc/supervisor.d/laravel.conf && \
     echo '[program:php-fpm]' >> /etc/supervisor.d/laravel.conf && \
-    echo 'command=/usr/sbin/php-fpm8.2 -F' >> /etc/supervisor.d/laravel.conf && \
+    echo 'command=/usr/local/sbin/php-fpm -F' >> /etc/supervisor.d/laravel.conf && \
     echo 'autostart=true' >> /etc/supervisor.d/laravel.conf && \
     echo 'autorestart=true' >> /etc/supervisor.d/laravel.conf && \
     echo 'stderr_logfile=/var/log/supervisor/php-fpm.err.log' >> /etc/supervisor.d/laravel.conf && \
